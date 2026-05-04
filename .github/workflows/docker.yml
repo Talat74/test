@@ -1,0 +1,49 @@
+name: dokcer pipeline
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: ${{ secrets.DOKCERHUB_USERNAME }}/test:latest
+      CONTAINER_NAME: test-app
+      PORT: 4000
+
+    steps:
+
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: login to docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOKCERHUB_TOKEN }}
+      
+      - name: build image
+        run: |
+          dokcer build -t $IMAGE_NAME .
+
+      - name: push image
+        run: |
+          dokcer push $IMAGE_NAME
+
+      - name: stop old container
+        run: |
+          dokcer stop $CONTAINER_NAME || true
+          dokcer rm $CONTAINER_NAME || true
+
+      - name: run new container
+        run: |
+          dokcer run -d \
+               --name $CONTAINER_NAME \
+                -p $PORT:3000 \
+                $IMAGE_NAME
+      - name: verify deployment
+        run: |
+          dokcer ps | grep $CONTAINER_NAME || (echo "container failed to start" && exit 1) 
+   
