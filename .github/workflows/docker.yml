@@ -30,20 +30,20 @@ jobs:
 
       - name: push image
         run: |
-          dokcer push $IMAGE_NAME
+          docker push $IMAGE_NAME
 
       - name: stop old container
         run: |
-          dokcer stop $CONTAINER_NAME || true
-          dokcer rm $CONTAINER_NAME || true
+          docker stop $CONTAINER_NAME || true
+          docker rm $CONTAINER_NAME || true
 
       - name: run new container
         run: |
-          dokcer run -d \
+          docker run -d \
                --name $CONTAINER_NAME \
                 -p $PORT:3000 \
                 $IMAGE_NAME
       - name: verify deployment
         run: |
-          dokcer ps | grep $CONTAINER_NAME || (echo "container failed to start" && exit 1) 
+          docker ps | grep $CONTAINER_NAME || (echo "container failed to start" && exit 1) 
    
