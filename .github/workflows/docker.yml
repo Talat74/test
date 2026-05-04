@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: ${{ secrets.DOKCERHUB_USERNAME }}/test:latest
+      IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/test:latest
       CONTAINER_NAME: test-app
       PORT: 4000
 
