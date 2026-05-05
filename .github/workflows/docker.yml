@@ -48,8 +48,9 @@ jobs:
              docker rm $CONTAINER_NAME || true
 
              dokcer run -d \
-                    --restart-always \
+                    --restart always \
                     --name $CONTAINR_NAME \
                     -p $PORT:4000 \
                     $IMAGE_NAME
-            docker ps 
+             
+             docker ps 
