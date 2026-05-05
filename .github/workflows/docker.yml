@@ -30,7 +30,7 @@ jobs:
 
       - name: image tag
         run: |
-          docker tag $IMAGE_NAME ${{ secrets.DOKCERHUB_USERNAME }}/anotherwhisk:${{ github.sha }}
+          docker tag $IMAGE_NAME ${{ secrets.DOCKERHUB_USERNAME }}/test:${{ github.sha }}
      
       - name: push image
         run: |
