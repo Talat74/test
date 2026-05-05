@@ -28,22 +28,28 @@ jobs:
         run: |
           docker build -t $IMAGE_NAME .
 
+      - name: image tag
+        run: |
+          docker tag $IMAGE_NAME ${{ secrets.DOKCERHUB_USERNAME }}/anotherwhisk:${{ github_sha }}
+     
       - name: push image
         run: |
           docker push $IMAGE_NAME
 
-      - name: stop old container
-        run: |
-          docker stop $CONTAINER_NAME || true
-          docker rm $CONTAINER_NAME || true
+      - name: deploy to gcp
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+           host: ${{ secrets.GCP_HOST }}
+           username: ${{ secrets.GCP_USER }}
+           key: ${{ secrets.GCP_SSH_KEY }}
+           script: |
+              docker pull $IMAGE_NAME
+              docker stop $CONTAINER_NAME || true
+              docker rm $CONTAINER_NAME || true
 
-      - name: run new container
-        run: |
-          docker run -d \
-               --name $CONTAINER_NAME \
-                -p $PORT:3000 \
-                $IMAGE_NAME
-      - name: verify deployment
-        run: |
-          docker ps | grep $CONTAINER_NAME || (echo "container failed to start" && exit 1) 
-   
+             dokcer run -d \
+                    --restart-always \
+                    --name $CONTAINR_NAME \
+                    -p $PORT:4000 \
+                    $IMAGE_NAME
+            docker ps 
