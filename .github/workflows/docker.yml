@@ -39,13 +39,13 @@ jobs:
       - name: deploy to gcp
         uses: appleboy/ssh-action@v1.0.3
         with:
-           host: ${{ secrets.GCP_HOST }}
-           username: ${{ secrets.GCP_USER }}
-           key: ${{ secrets.GCP_SSH_KEY }}
-           script: |
-              docker pull $IMAGE_NAME
-              docker stop $CONTAINER_NAME || true
-              docker rm $CONTAINER_NAME || true
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.GCP_USER }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          script: |
+             docker pull $IMAGE_NAME
+             docker stop $CONTAINER_NAME || true
+             docker rm $CONTAINER_NAME || true
 
              dokcer run -d \
                     --restart-always \
