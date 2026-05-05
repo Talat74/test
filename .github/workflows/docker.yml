@@ -51,7 +51,7 @@ jobs:
              docker stop $CONTAINER_NAME || true
              docker rm $CONTAINER_NAME || true
 
-             dokcer run -d \
+             docker run -d \
                     --restart always \
                     --name $CONTAINR_NAME \
                     -p $PORT:4000 \
