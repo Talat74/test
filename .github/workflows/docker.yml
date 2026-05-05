@@ -43,6 +43,10 @@ jobs:
           username: ${{ secrets.GCP_USER }}
           key: ${{ secrets.GCP_SSH_KEY }}
           script: |
+             IMAGE_NAME=${{ env.IMAGE_NAME }}
+             CONTAINER_NAME=${{ env.CONTAINER_NAME }}
+             PORT=${{ env.PORT }}
+ 
              docker pull $IMAGE_NAME
              docker stop $CONTAINER_NAME || true
              docker rm $CONTAINER_NAME || true
