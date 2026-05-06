@@ -53,8 +53,8 @@ jobs:
 
              docker run -d \
                     --restart always \
-                    --name $CONTAINER_NAME \
-                    -p $PORT:4000 \
-                    $IMAGE_NAME
+                    --name "$CONTAINER_NAME" \
+                    -p "$PORT:4000" \
+                    "$IMAGE_NAME"
              
              docker ps 
