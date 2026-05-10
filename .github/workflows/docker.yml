@@ -64,5 +64,5 @@ jobs:
                     -p "$PORT:4000" \
                     "$IMAGE_NAME"
              
-             docker ps
+             sudo docker ps
            " 
